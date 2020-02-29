@@ -1,12 +1,13 @@
 package model;
 
 public class BusTicket extends Ticket{
-    enum BusType{
-        city,
-        regional,
-        international
+    private enum BusType{
+        CITY,
+        REGIONAL,
+        INTERNATIONAL
     }
-    public String bus_stop_name;
+    BusType busType;
+    private String busStopName;
     public void buy(){
         System.out.println("Bus_Ticket::buy was called");
     }

@@ -1,13 +1,14 @@
 package model;
 
 public class PlaneTicket extends Ticket{
-    enum SeatClass{
-        economy,
-        business,
-        first
+    private enum SeatClass{
+        ECONOMY,
+        BUSINESS,
+        FIRST
     }
-    public String airport_name;
-    boolean luggage_included;
+    SeatClass seatClass;
+    private String airportName;
+    private boolean luggageIncluded;
     public void buy(){
         System.out.println("Plane_Ticket::buy was called");
     }

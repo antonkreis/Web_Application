@@ -1,14 +1,16 @@
 package model;
 
 public class TrainTicket extends Ticket {
-    enum SeatType{
-        seat,
-        compartment
+    private enum SeatType{
+        SEAT,
+        COMPARTMENT
     }
-    boolean meals_included;
-    public String railway_station_name;
+    private SeatType seatType;
+    private boolean mealsIncluded;
+    private String railwayStationName;
     public void buy(){
         System.out.println("Train_Ticket::buy was called");
+        //seat_type = SeatType.SEAT;
     }
     public void cancel(){
         System.out.println("Train_Ticket::cancel was called");
