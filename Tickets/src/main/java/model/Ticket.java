@@ -3,9 +3,27 @@ package model;
 public abstract class Ticket implements TicketActions{
     private String clientName;
     private int amountOfTickets;
-    private class Date {
-        public int day;
-        public int month;
-        public int year;
+//    private class Date {
+//        public int day;
+//        public int month;
+//        public int year;
+//    }
+    Date date;
+    public Ticket(){
+
+    }
+    public Ticket(String clientName, int amountOfTickets, Date date){
+        this.clientName=clientName;
+        this.amountOfTickets=amountOfTickets;
+        this.date = date;
+    }
+    public String getClientName(){
+        return clientName;
+    }
+    public int getAmountOfTickets(){
+        return amountOfTickets;
+    }
+    public Date getDate(){
+        return date;
     }
 }
