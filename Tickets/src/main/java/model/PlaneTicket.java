@@ -38,6 +38,6 @@ public class PlaneTicket extends Ticket{
         System.out.println(getDate().getYear());
     }
     public String toString(){
-        return seatClass.toString() + airportName + String.valueOf(luggageIncluded)+getClientName()+String.valueOf(getAmountOfTickets());
+        return "Plane ticket: Type: " + seatClass.toString() + airportName + String.valueOf(luggageIncluded)+getClientName()+String.valueOf(getAmountOfTickets());
     }
 }

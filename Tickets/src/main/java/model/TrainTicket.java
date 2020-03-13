@@ -35,6 +35,6 @@ public class TrainTicket extends Ticket {
         System.out.println(getDate().getYear());
     }
     public String toString(){
-        return seatType.name() + String.valueOf(mealsIncluded) + railwayStationName + getClientName() + getAmountOfTickets();
+        return "T ticket: Type: " +seatType.name() + String.valueOf(mealsIncluded) + railwayStationName + getClientName() + getAmountOfTickets();
     }
 }

@@ -1,5 +1,7 @@
 package model;
 
+import java.time.LocalDate;
+
 public abstract class Ticket implements TicketActions{
     private String clientName;
     private int amountOfTickets;
@@ -8,7 +10,7 @@ public abstract class Ticket implements TicketActions{
 //        public int month;
 //        public int year;
 //    }
-    Date date;
+    /*LocalDate*/ Date date;
     public Ticket(){
 
     }

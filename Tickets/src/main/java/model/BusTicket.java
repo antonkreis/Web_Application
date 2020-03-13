@@ -1,6 +1,7 @@
 package model;
 
 public class BusTicket extends Ticket{
+    private String id;
     public enum BusType{
         CITY,
         REGIONAL,
@@ -33,6 +34,6 @@ public class BusTicket extends Ticket{
         System.out.println(getDate().getYear());
     }
     public String toString(){
-        return busType.name() + busStopName + getClientName() + String.valueOf(getAmountOfTickets());
+        return "Bus ticket: Type: " + busType.name() + "; Bus stop name: " + busStopName + "; Client name: " + getClientName() + "; Amount: " + String.valueOf(getAmountOfTickets());
     }
 }
