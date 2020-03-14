@@ -11,8 +11,8 @@ public class TrainTicket extends Ticket {
     public TrainTicket(){
 
     }
-    public TrainTicket(SeatType seatType, String railwayStationName, boolean mealsIncluded, String clientName, int amountOfTickets, Date date){
-        super(clientName, amountOfTickets, date);
+    public TrainTicket(String id, SeatType seatType, String railwayStationName, boolean mealsIncluded, String clientName, int amountOfTickets, Date date){
+        super("T"+id, clientName, amountOfTickets, date);
         this.seatType=seatType;
         this.mealsIncluded=mealsIncluded;
         this.railwayStationName=railwayStationName;
@@ -35,6 +35,6 @@ public class TrainTicket extends Ticket {
         System.out.println(getDate().getYear());
     }
     public String toString(){
-        return "T ticket: Type: " +seatType.name() + String.valueOf(mealsIncluded) + railwayStationName + getClientName() + getAmountOfTickets();
+        return "Train ticket: ID: " + getId() + "; Type: " +seatType.name() + "; Meals included: " + String.valueOf(mealsIncluded) + "; Railway station name: " + railwayStationName + "; Client name: " + getClientName() + "; Amount of tickets: " + getAmountOfTickets();
     }
 }

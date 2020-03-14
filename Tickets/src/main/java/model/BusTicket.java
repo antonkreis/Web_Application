@@ -1,7 +1,6 @@
 package model;
 
 public class BusTicket extends Ticket{
-    private String id;
     public enum BusType{
         CITY,
         REGIONAL,
@@ -12,8 +11,8 @@ public class BusTicket extends Ticket{
     public BusTicket(){
 
     }
-    public BusTicket(BusType busType, String busStopName, String clientName, int amountOfTickets, Date date){
-        super(clientName, amountOfTickets, date);
+    public BusTicket(String id, BusType busType, String busStopName, String clientName, int amountOfTickets, Date date){
+        super("B"+id, clientName, amountOfTickets, date);
         this.busType=busType;
         this.busStopName=busStopName;
     }
@@ -34,6 +33,6 @@ public class BusTicket extends Ticket{
         System.out.println(getDate().getYear());
     }
     public String toString(){
-        return "Bus ticket: Type: " + busType.name() + "; Bus stop name: " + busStopName + "; Client name: " + getClientName() + "; Amount: " + String.valueOf(getAmountOfTickets());
+        return "Bus ticket: ID: " + getId() + "; Type: " + busType.name() + "; Bus stop name: " + busStopName + "; Client name: " + getClientName() + "; Amount: " + String.valueOf(getAmountOfTickets());
     }
 }

@@ -3,6 +3,7 @@ package model;
 import java.time.LocalDate;
 
 public abstract class Ticket implements TicketActions{
+    private String id;
     private String clientName;
     private int amountOfTickets;
 //    private class Date {
@@ -14,7 +15,8 @@ public abstract class Ticket implements TicketActions{
     public Ticket(){
 
     }
-    public Ticket(String clientName, int amountOfTickets, Date date){
+    public Ticket(String id, String clientName, int amountOfTickets, Date date){
+        this.id=id;
         this.clientName=clientName;
         this.amountOfTickets=amountOfTickets;
         this.date = date;
@@ -22,6 +24,7 @@ public abstract class Ticket implements TicketActions{
     public String getClientName(){
         return clientName;
     }
+    public String getId(){ return id; }
     public int getAmountOfTickets(){
         return amountOfTickets;
     }

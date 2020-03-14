@@ -14,8 +14,8 @@ public class PlaneTicket extends Ticket{
     public PlaneTicket(){
 
     }
-    public PlaneTicket(SeatClass seatClass, String airportName, boolean luggageIncluded, String clientName, int amountOfTickets, Date date){
-        super(clientName, amountOfTickets, date);
+    public PlaneTicket(String id, SeatClass seatClass, String airportName, boolean luggageIncluded, String clientName, int amountOfTickets, Date date){
+        super("P"+id, clientName, amountOfTickets, date);
         this.seatClass = seatClass;
         this.luggageIncluded = luggageIncluded;
         this.airportName = airportName;
@@ -38,6 +38,6 @@ public class PlaneTicket extends Ticket{
         System.out.println(getDate().getYear());
     }
     public String toString(){
-        return "Plane ticket: Type: " + seatClass.toString() + airportName + String.valueOf(luggageIncluded)+getClientName()+String.valueOf(getAmountOfTickets());
+        return "Plane ticket: ID: " + getId() + "; Type: " + seatClass.toString() + "; Airport name: " + airportName + "; Luggage included: " + String.valueOf(luggageIncluded) + "; Client name: " + getClientName() + "; Amount of tickets: " + String.valueOf(getAmountOfTickets());
     }
 }
