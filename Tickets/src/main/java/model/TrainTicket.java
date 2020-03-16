@@ -1,5 +1,7 @@
 package model;
 
+import java.time.LocalDate;
+
 public class TrainTicket extends Ticket {
     public enum SeatType{
         SEAT,
@@ -11,7 +13,7 @@ public class TrainTicket extends Ticket {
     public TrainTicket(){
 
     }
-    public TrainTicket(String id, SeatType seatType, String railwayStationName, boolean mealsIncluded, String clientName, int amountOfTickets, Date date){
+    public TrainTicket(String id, SeatType seatType, String railwayStationName, boolean mealsIncluded, String clientName, int amountOfTickets, LocalDate date){
         super("T"+id, clientName, amountOfTickets, date);
         this.seatType=seatType;
         this.mealsIncluded=mealsIncluded;
@@ -30,11 +32,9 @@ public class TrainTicket extends Ticket {
         System.out.println(railwayStationName);
         System.out.println(getClientName());
         System.out.println(getAmountOfTickets());
-        System.out.println(getDate().getDay());
-        System.out.println(getDate().getMonth());
-        System.out.println(getDate().getYear());
+        System.out.println(getDate().toString());
     }
     public String toString(){
-        return "Train ticket: ID: " + getId() + "; Type: " +seatType.name() + "; Meals included: " + String.valueOf(mealsIncluded) + "; Railway station name: " + railwayStationName + "; Client name: " + getClientName() + "; Amount of tickets: " + getAmountOfTickets();
+        return "Train ticket: ID: " + getId() + "; Type: " +seatType.name() + "; Meals included: " + String.valueOf(mealsIncluded) + "; Railway station name: " + railwayStationName + "; Client name: " + getClientName() + "; Amount of tickets: " + getAmountOfTickets() + "; Date: " + date.toString();
     }
 }

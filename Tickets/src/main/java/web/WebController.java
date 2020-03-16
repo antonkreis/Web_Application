@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import java.time.LocalDate;
 import java.util.HashMap;
 
 @RestController
@@ -63,7 +64,7 @@ public class WebController {
     @PostMapping("/create/bus/{id}")
     public String createBusDefault(@PathVariable String id) {
         if(!busTicketsList.containsKey(id)) {
-            BusTicket newBusTicket = new BusTicket(id, BusTicket.BusType.CITY, "Central", "Anton", 5, new Date(9, 7, 2020));
+            BusTicket newBusTicket = new BusTicket(id, BusTicket.BusType.CITY, "Central", "Anton", 5, LocalDate.of(2020, 7, 9));
             busTicketsList.put(id, newBusTicket);
             return "Created.";
         }
@@ -73,8 +74,14 @@ public class WebController {
     @PostMapping("/create/bus/{id}/{busType}/{busStopName}/{clientName}/{amountOfTickets}/{day}/{month}/{year}")
     public String createBus(@PathVariable String id,@PathVariable BusTicket.BusType busType,@PathVariable String busStopName,@PathVariable String clientName,@PathVariable Integer amountOfTickets,@PathVariable Integer day,@PathVariable Integer month,@PathVariable Integer year) {
         if(!busTicketsList.containsKey(id)) {
-            BusTicket newBusTicket = new BusTicket(id, busType, busStopName, clientName, amountOfTickets, new Date(day, month, year));
-            busTicketsList.put(id, newBusTicket);
+            try {
+                BusTicket newBusTicket = new BusTicket(id, busType, busStopName, clientName, amountOfTickets, LocalDate.of(year, month, day));
+                busTicketsList.put(id, newBusTicket);
+            }
+            catch(Exception e){
+                System.out.println(e.toString());
+                return "Time error.";
+            }
             return "Created.";
         }
         return "The ticket with this ID already exists";
@@ -83,7 +90,7 @@ public class WebController {
     @PostMapping("/create/plane/{id}")
     public String createPlaneDefault(@PathVariable String id) {
         if(!planeTicketsList.containsKey(id)) {
-            PlaneTicket newPlaneTicket = new PlaneTicket(id, PlaneTicket.SeatClass.BUSINESS, "MSQ", true, "Anton", 56, new Date(9, 7, 2020));
+            PlaneTicket newPlaneTicket = new PlaneTicket(id, PlaneTicket.SeatClass.BUSINESS, "MSQ", true, "Anton", 56, LocalDate.of(2020, 7, 9));
             planeTicketsList.put(id, newPlaneTicket);
             return "Created.";
         }
@@ -93,8 +100,14 @@ public class WebController {
     @PostMapping("/create/plane/{id}/{seatClass}/{airportName}/{luggageIncluded}/{clientName}/{amountOfTickets}/{day}/{month}/{year}")
     public String createPlane(@PathVariable String id,@PathVariable PlaneTicket.SeatClass seatClass, @PathVariable String airportName, @PathVariable boolean luggageIncluded, @PathVariable String clientName,@PathVariable Integer amountOfTickets,@PathVariable Integer day,@PathVariable Integer month,@PathVariable Integer year) {
         if(!planeTicketsList.containsKey(id)) {
-            PlaneTicket newPlaneTicket = new PlaneTicket(id, seatClass, airportName, luggageIncluded, clientName,  amountOfTickets, new Date(day, month, year));
-            planeTicketsList.put(id, newPlaneTicket);
+            try {
+                PlaneTicket newPlaneTicket = new PlaneTicket(id, seatClass, airportName, luggageIncluded, clientName, amountOfTickets, LocalDate.of(year, month, day));
+                planeTicketsList.put(id, newPlaneTicket);
+            }
+            catch(Exception e){
+                System.out.println(e.toString());
+                return "Time error.";
+            }
             return "Created.";
         }
         return "The ticket with this ID already exists";
@@ -103,7 +116,7 @@ public class WebController {
     @PostMapping("/create/train/{id}")
     public String createTrainDefault(@PathVariable String id) {
         if(!trainTicketsList.containsKey(id)) {
-            TrainTicket newTrainTicket = new TrainTicket(id, TrainTicket.SeatType.COMPARTMENT, "Minsk-Passenger", true, "Anton", 5, new Date(9, 7, 2020));
+            TrainTicket newTrainTicket = new TrainTicket(id, TrainTicket.SeatType.COMPARTMENT, "Minsk-Passenger", true, "Anton", 5, LocalDate.of(2020, 7, 9));
             trainTicketsList.put(id, newTrainTicket);
             return "Created.";
         }
@@ -113,8 +126,14 @@ public class WebController {
     @PostMapping("/create/train/{id}/{seatType}/{railwayStationName}/{mealsIncluded}/{clientName}/{amountOfTickets}/{day}/{month}/{year}")
     public String createTrain(@PathVariable String id, @PathVariable TrainTicket.SeatType seatType, @PathVariable String railwayStationName, @PathVariable boolean mealsIncluded, @PathVariable String clientName, @PathVariable Integer amountOfTickets, @PathVariable Integer day, @PathVariable Integer month, @PathVariable Integer year) {
         if(!trainTicketsList.containsKey(id)) {
-            TrainTicket newTrainTicket = new TrainTicket(id, seatType, railwayStationName, mealsIncluded, clientName, amountOfTickets, new Date(day, month, year));
-            trainTicketsList.put(id, newTrainTicket);
+            try {
+                TrainTicket newTrainTicket = new TrainTicket(id, seatType, railwayStationName, mealsIncluded, clientName, amountOfTickets, LocalDate.of(year, month, day));
+                trainTicketsList.put(id, newTrainTicket);
+            }
+            catch(Exception e){
+                System.out.println(e.toString());
+                return "Time error.";
+            }
             return "Created.";
         }
         return "The ticket with this ID already exists";
@@ -127,7 +146,7 @@ public class WebController {
             busTicketsList.remove(id);
             response= "Created.";
         }
-            BusTicket newBusTicket = new BusTicket(id, BusTicket.BusType.CITY, "Central", "Anton", 5, new Date(9, 7, 2020));
+            BusTicket newBusTicket = new BusTicket(id, BusTicket.BusType.CITY, "Central", "Anton", 5, LocalDate.of(2020, 7, 9));
             busTicketsList.put(id, newBusTicket);
             return response;
     }
@@ -139,8 +158,14 @@ public class WebController {
             busTicketsList.remove(id);
             response= "Created.";
         }
-        BusTicket newBusTicket = new BusTicket(id, busType, busStopName, clientName, amountOfTickets, new Date(day, month, year));
-        busTicketsList.put(id, newBusTicket);
+        try {
+            BusTicket newBusTicket = new BusTicket(id, busType, busStopName, clientName, amountOfTickets, LocalDate.of(year, month, day));
+            busTicketsList.put(id, newBusTicket);
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+            return "Time error.";
+        }
         return response;
     }
 
@@ -151,7 +176,7 @@ public class WebController {
             planeTicketsList.remove(id);
             response = "Created.";
         }
-            PlaneTicket newPlaneTicket = new PlaneTicket(id, PlaneTicket.SeatClass.BUSINESS, "MSQ", true, "Anton", 56, new Date(9, 7, 2020));
+            PlaneTicket newPlaneTicket = new PlaneTicket(id, PlaneTicket.SeatClass.BUSINESS, "MSQ", true, "Anton", 56, LocalDate.of(2020, 7, 9));
             planeTicketsList.put(id, newPlaneTicket);
             System.out.println(planeTicketsList.get(id));
             return response;
@@ -164,9 +189,14 @@ public class WebController {
             planeTicketsList.remove(id);
             response = "Created.";
         }
-        PlaneTicket newPlaneTicket = new PlaneTicket(id, seatClass, airportName, luggageIncluded, clientName, amountOfTickets, new Date(day, month, year));
-        planeTicketsList.put(id, newPlaneTicket);
-        System.out.println(planeTicketsList.get(id));
+        try {
+            PlaneTicket newPlaneTicket = new PlaneTicket(id, seatClass, airportName, luggageIncluded, clientName, amountOfTickets, LocalDate.of(year, month, day));
+            planeTicketsList.put(id, newPlaneTicket);
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+            return "Time error.";
+        }
         return response;
     }
 
@@ -177,7 +207,7 @@ public class WebController {
             trainTicketsList.remove(id);
             response = "Created.";
         }
-        TrainTicket newTrainTicket = new TrainTicket(id, TrainTicket.SeatType.COMPARTMENT, "Minsk-Passenger", true, "Anton", 5, new Date(9, 7, 2020));
+        TrainTicket newTrainTicket = new TrainTicket(id, TrainTicket.SeatType.COMPARTMENT, "Minsk-Passenger", true, "Anton", 5, LocalDate.of(2020, 7, 9));
         trainTicketsList.put(id, newTrainTicket);
         return response;
     }
@@ -189,8 +219,14 @@ public class WebController {
             trainTicketsList.remove(id);
             response = "Created.";
         }
-        TrainTicket newTrainTicket = new TrainTicket(id, seatType, railwayStationName, mealsIncluded, clientName, amountOfTickets, new Date(day, month, year));
-        trainTicketsList.put(id, newTrainTicket);
+        try {
+            TrainTicket newTrainTicket = new TrainTicket(id, seatType, railwayStationName, mealsIncluded, clientName, amountOfTickets, LocalDate.of(year, month, day));
+            trainTicketsList.put(id, newTrainTicket);
+        }
+        catch(Exception e){
+            System.out.println(e.toString());
+            return "Time error.";
+        }
         return response;
     }
 

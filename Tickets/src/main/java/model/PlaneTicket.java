@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDate;
 //import com.sun.org.apache.bcel.internal.generic.PUSH;
 
 public class PlaneTicket extends Ticket{
@@ -14,7 +15,7 @@ public class PlaneTicket extends Ticket{
     public PlaneTicket(){
 
     }
-    public PlaneTicket(String id, SeatClass seatClass, String airportName, boolean luggageIncluded, String clientName, int amountOfTickets, Date date){
+    public PlaneTicket(String id, SeatClass seatClass, String airportName, boolean luggageIncluded, String clientName, int amountOfTickets, LocalDate date){
         super("P"+id, clientName, amountOfTickets, date);
         this.seatClass = seatClass;
         this.luggageIncluded = luggageIncluded;
@@ -33,11 +34,9 @@ public class PlaneTicket extends Ticket{
         System.out.println(luggageIncluded);
         System.out.println(getClientName());
         System.out.println(getAmountOfTickets());
-        System.out.println(getDate().getDay());
-        System.out.println(getDate().getMonth());
-        System.out.println(getDate().getYear());
+        System.out.println(getDate().toString());
     }
     public String toString(){
-        return "Plane ticket: ID: " + getId() + "; Type: " + seatClass.toString() + "; Airport name: " + airportName + "; Luggage included: " + String.valueOf(luggageIncluded) + "; Client name: " + getClientName() + "; Amount of tickets: " + String.valueOf(getAmountOfTickets());
+        return "Plane ticket: ID: " + getId() + "; Type: " + seatClass.toString() + "; Airport name: " + airportName + "; Luggage included: " + String.valueOf(luggageIncluded) + "; Client name: " + getClientName() + "; Amount of tickets: " + String.valueOf(getAmountOfTickets()) + "; Date: " + date.toString();
     }
 }

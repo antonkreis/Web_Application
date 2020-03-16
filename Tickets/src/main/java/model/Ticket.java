@@ -11,11 +11,11 @@ public abstract class Ticket implements TicketActions{
 //        public int month;
 //        public int year;
 //    }
-    /*LocalDate*/ Date date;
+    /*LocalDate*/ LocalDate date;
     public Ticket(){
 
     }
-    public Ticket(String id, String clientName, int amountOfTickets, Date date){
+    public Ticket(String id, String clientName, int amountOfTickets, LocalDate date){
         this.id=id;
         this.clientName=clientName;
         this.amountOfTickets=amountOfTickets;
@@ -28,7 +28,7 @@ public abstract class Ticket implements TicketActions{
     public int getAmountOfTickets(){
         return amountOfTickets;
     }
-    public Date getDate(){
+    public LocalDate getDate(){
         return date;
     }
 }

@@ -1,5 +1,7 @@
 package model;
 
+import java.time.LocalDate;
+
 public class BusTicket extends Ticket{
     public enum BusType{
         CITY,
@@ -11,7 +13,7 @@ public class BusTicket extends Ticket{
     public BusTicket(){
 
     }
-    public BusTicket(String id, BusType busType, String busStopName, String clientName, int amountOfTickets, Date date){
+    public BusTicket(String id, BusType busType, String busStopName, String clientName, int amountOfTickets, LocalDate date){
         super("B"+id, clientName, amountOfTickets, date);
         this.busType=busType;
         this.busStopName=busStopName;
@@ -28,11 +30,9 @@ public class BusTicket extends Ticket{
         System.out.println(busStopName);
         System.out.println(getClientName());
         System.out.println(getAmountOfTickets());
-        System.out.println(getDate().getDay());
-        System.out.println(getDate().getMonth());
-        System.out.println(getDate().getYear());
+        System.out.println(getDate().toString());
     }
     public String toString(){
-        return "Bus ticket: ID: " + getId() + "; Type: " + busType.name() + "; Bus stop name: " + busStopName + "; Client name: " + getClientName() + "; Amount: " + String.valueOf(getAmountOfTickets());
+        return "Bus ticket: ID: " + getId() + "; Type: " + busType.name() + "; Bus stop name: " + busStopName + "; Client name: " + getClientName() + "; Amount: " + String.valueOf(getAmountOfTickets()) + "; Date: " + date.toString();
     }
 }
