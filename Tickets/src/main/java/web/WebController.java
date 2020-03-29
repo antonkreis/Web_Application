@@ -1,14 +1,21 @@
 package web;
 
 import model.*;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 @RestController
 public class WebController {
@@ -22,241 +29,185 @@ public class WebController {
     }
 
     @GetMapping("/all/bus")
-    public String allBus() {
-        return busTicketsList.toString();
+    public ResponseEntity<Object> allBus() {
+        //return busTicketsList.toString();
+        return new ResponseEntity<>(busTicketsList.toString(), HttpStatus.OK);
     }
 
     @GetMapping("/all/plane")
-    public String allPlane() {
+    public ResponseEntity<Object> allPlane() {
         System.out.println(planeTicketsList.toString());
-        return planeTicketsList.toString();
+        //return planeTicketsList.toString();
+        return new ResponseEntity<>(planeTicketsList.toString(), HttpStatus.OK);
     }
 
     @GetMapping("/all/train")
-    public String allTrain() {
-        return trainTicketsList.toString();
+    public ResponseEntity<Object> allTrain() {
+        //return trainTicketsList.toString();
+        return new ResponseEntity<>(trainTicketsList.toString(), HttpStatus.OK);
     }
 
     @GetMapping("/bus/{id}")
-    public String bus(@PathVariable String id) {
-        if(busTicketsList.containsKey(id)) {
-            return busTicketsList.get(id).toString();
+    public ResponseEntity<Object> bus(@PathVariable String id) {
+        if(!busTicketsList.containsKey(id)) {
+            throw new NotFoundException(id);
         }
-        return "The bus ticket was not found.";
+        return new ResponseEntity<>(busTicketsList.get(id).toString(), HttpStatus.OK);
     }
 
     @GetMapping("/plane/{id}")
-    public String plane(@PathVariable String id) {
-        if(planeTicketsList.containsKey(id)) {
-            return planeTicketsList.get(id).toString();
+    public ResponseEntity<Object> plane(@PathVariable String id) {
+        if(!planeTicketsList.containsKey(id)) {
+            throw new NotFoundException(id);
         }
-        return "The plane ticket was not found.";
+        return new ResponseEntity<>(planeTicketsList.get(id).toString(), HttpStatus.OK);
     }
 
     @GetMapping("/train/{id}")
-    public String train(@PathVariable String id) {
+    public ResponseEntity<Object> train(@PathVariable String id) {
         if(trainTicketsList.containsKey(id)) {
-            return trainTicketsList.get(id).toString();
+            throw new NotFoundException(id);
         }
-        return "The train ticket was not found.";
-    }
-
-    @PostMapping("/create/bus/{id}")
-    public String createBusDefault(@PathVariable String id) {
-        if(!busTicketsList.containsKey(id)) {
-            BusTicket newBusTicket = new BusTicket(id, BusTicket.BusType.CITY, "Central", "Anton", 5, LocalDate.of(2020, 7, 9));
-            busTicketsList.put(id, newBusTicket);
-            return "Created.";
-        }
-        return "The ticket with this ID already exists";
+        return new ResponseEntity<>(trainTicketsList.get(id).toString(), HttpStatus.OK);
     }
 
     @PostMapping("/create/bus/{id}/{busType}/{busStopName}/{clientName}/{amountOfTickets}/{day}/{month}/{year}")
-    public String createBus(@PathVariable String id,@PathVariable BusTicket.BusType busType,@PathVariable String busStopName,@PathVariable String clientName,@PathVariable Integer amountOfTickets,@PathVariable Integer day,@PathVariable Integer month,@PathVariable Integer year) {
+    public ResponseEntity<Object> createBus(@PathVariable String id,@PathVariable BusTicket.BusType busType,@PathVariable String busStopName,@PathVariable String clientName,@PathVariable Integer amountOfTickets,@PathVariable Integer day,@PathVariable Integer month,@PathVariable Integer year) {
         if(!busTicketsList.containsKey(id)) {
             try {
                 BusTicket newBusTicket = new BusTicket(id, busType, busStopName, clientName, amountOfTickets, LocalDate.of(year, month, day));
                 busTicketsList.put(id, newBusTicket);
             }
             catch(Exception e){
-                System.out.println(e.toString());
-                return "Time error.";
+                throw new DateException();
             }
-            return "Created.";
+            return new ResponseEntity<>("Created.", HttpStatus.OK);
         }
-        return "The ticket with this ID already exists";
-    }
-
-    @PostMapping("/create/plane/{id}")
-    public String createPlaneDefault(@PathVariable String id) {
-        if(!planeTicketsList.containsKey(id)) {
-            PlaneTicket newPlaneTicket = new PlaneTicket(id, PlaneTicket.SeatClass.BUSINESS, "MSQ", true, "Anton", 56, LocalDate.of(2020, 7, 9));
-            planeTicketsList.put(id, newPlaneTicket);
-            return "Created.";
-        }
-        return "The ticket with this ID already exists";
+        throw new AlreadyExistException();
     }
 
     @PostMapping("/create/plane/{id}/{seatClass}/{airportName}/{luggageIncluded}/{clientName}/{amountOfTickets}/{day}/{month}/{year}")
-    public String createPlane(@PathVariable String id,@PathVariable PlaneTicket.SeatClass seatClass, @PathVariable String airportName, @PathVariable boolean luggageIncluded, @PathVariable String clientName,@PathVariable Integer amountOfTickets,@PathVariable Integer day,@PathVariable Integer month,@PathVariable Integer year) {
+    public ResponseEntity<Object> createPlane(@PathVariable String id,@PathVariable PlaneTicket.SeatClass seatClass, @PathVariable String airportName, @PathVariable boolean luggageIncluded, @PathVariable String clientName,@PathVariable Integer amountOfTickets,@PathVariable Integer day,@PathVariable Integer month,@PathVariable Integer year) {
         if(!planeTicketsList.containsKey(id)) {
             try {
                 PlaneTicket newPlaneTicket = new PlaneTicket(id, seatClass, airportName, luggageIncluded, clientName, amountOfTickets, LocalDate.of(year, month, day));
                 planeTicketsList.put(id, newPlaneTicket);
             }
             catch(Exception e){
-                System.out.println(e.toString());
-                return "Time error.";
+                throw new DateException();
+                //System.out.println(e.toString());
+                //return "Time error.";
             }
-            return "Created.";
+            return new ResponseEntity<>("Created.", HttpStatus.OK);
         }
-        return "The ticket with this ID already exists";
-    }
-
-    @PostMapping("/create/train/{id}")
-    public String createTrainDefault(@PathVariable String id) {
-        if(!trainTicketsList.containsKey(id)) {
-            TrainTicket newTrainTicket = new TrainTicket(id, TrainTicket.SeatType.COMPARTMENT, "Minsk-Passenger", true, "Anton", 5, LocalDate.of(2020, 7, 9));
-            trainTicketsList.put(id, newTrainTicket);
-            return "Created.";
-        }
-        return "The ticket with this ID already exists";
+        throw new AlreadyExistException();
     }
 
     @PostMapping("/create/train/{id}/{seatType}/{railwayStationName}/{mealsIncluded}/{clientName}/{amountOfTickets}/{day}/{month}/{year}")
-    public String createTrain(@PathVariable String id, @PathVariable TrainTicket.SeatType seatType, @PathVariable String railwayStationName, @PathVariable boolean mealsIncluded, @PathVariable String clientName, @PathVariable Integer amountOfTickets, @PathVariable Integer day, @PathVariable Integer month, @PathVariable Integer year) {
+    public ResponseEntity<Object> createTrain(@PathVariable String id, @PathVariable TrainTicket.SeatType seatType, @PathVariable String railwayStationName, @PathVariable boolean mealsIncluded, @PathVariable String clientName, @PathVariable Integer amountOfTickets, @PathVariable Integer day, @PathVariable Integer month, @PathVariable Integer year) {
         if(!trainTicketsList.containsKey(id)) {
             try {
                 TrainTicket newTrainTicket = new TrainTicket(id, seatType, railwayStationName, mealsIncluded, clientName, amountOfTickets, LocalDate.of(year, month, day));
                 trainTicketsList.put(id, newTrainTicket);
             }
             catch(Exception e){
-                System.out.println(e.toString());
-                return "Time error.";
+                throw new DateException();
+               // System.out.println(e.toString());
+              //  return "Time error.";
             }
-            return "Created.";
+            return new ResponseEntity<>("Created.", HttpStatus.OK);
         }
-        return "The ticket with this ID already exists";
+        throw new AlreadyExistException();
     }
 
-    @PutMapping("/update/bus/{id}")
-    public String updateBusDefault(@PathVariable String id) {
-        String response = "Updated.";
-        if(!busTicketsList.containsKey(id)) {
-            busTicketsList.remove(id);
-            response= "Created.";
-        }
-            BusTicket newBusTicket = new BusTicket(id, BusTicket.BusType.CITY, "Central", "Anton", 5, LocalDate.of(2020, 7, 9));
-            busTicketsList.put(id, newBusTicket);
-            return response;
-    }
 
     @PutMapping("/update/bus/{id}/{busType}/{busStopName}/{clientName}/{amountOfTickets}/{day}/{month}/{year}")
-    public String updateBus(@PathVariable String id,@PathVariable BusTicket.BusType busType,@PathVariable String busStopName,@PathVariable String clientName,@PathVariable Integer amountOfTickets,@PathVariable Integer day,@PathVariable Integer month,@PathVariable Integer year) {
-        String response = "Updated.";
-        if(!busTicketsList.containsKey(id)) {
+    public ResponseEntity<Object> updateBus(@PathVariable String id,@PathVariable BusTicket.BusType busType,@PathVariable String busStopName,@PathVariable String clientName,@PathVariable Integer amountOfTickets,@PathVariable Integer day,@PathVariable Integer month,@PathVariable Integer year) {
+        String response = "Created.";
+        if(busTicketsList.containsKey(id)) {
             busTicketsList.remove(id);
-            response= "Created.";
+            response= "Updated.";
         }
         try {
             BusTicket newBusTicket = new BusTicket(id, busType, busStopName, clientName, amountOfTickets, LocalDate.of(year, month, day));
             busTicketsList.put(id, newBusTicket);
         }
         catch(Exception e){
-            System.out.println(e.toString());
-            return "Time error.";
+            throw new DateException();
+           // System.out.println(e.toString());
+          //  return "Time error.";
         }
-        return response;
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PutMapping("/update/plane/{id}")
-    public String updatePlaneDefault(@PathVariable String id) {
-        String response = "Updated.";
-        if(!planeTicketsList.containsKey(id)) {
-            planeTicketsList.remove(id);
-            response = "Created.";
-        }
-            PlaneTicket newPlaneTicket = new PlaneTicket(id, PlaneTicket.SeatClass.BUSINESS, "MSQ", true, "Anton", 56, LocalDate.of(2020, 7, 9));
-            planeTicketsList.put(id, newPlaneTicket);
-            System.out.println(planeTicketsList.get(id));
-            return response;
-    }
+
 
     @PutMapping("/update/plane/{id}/{seatClass}/{airportName}/{luggageIncluded}/{clientName}/{amountOfTickets}/{day}/{month}/{year}")
-    public String updatePlane(@PathVariable String id,@PathVariable PlaneTicket.SeatClass seatClass, @PathVariable String airportName, @PathVariable boolean luggageIncluded, @PathVariable String clientName,@PathVariable Integer amountOfTickets,@PathVariable Integer day,@PathVariable Integer month,@PathVariable Integer year) {
-        String response = "Updated.";
-        if(!planeTicketsList.containsKey(id)) {
+    public ResponseEntity<Object> updatePlane(@PathVariable String id,@PathVariable PlaneTicket.SeatClass seatClass, @PathVariable String airportName, @PathVariable boolean luggageIncluded, @PathVariable String clientName,@PathVariable Integer amountOfTickets,@PathVariable Integer day,@PathVariable Integer month,@PathVariable Integer year) {
+        String response = "Created.";
+        if(planeTicketsList.containsKey(id)) {
             planeTicketsList.remove(id);
-            response = "Created.";
+            response = "Updated.";
         }
         try {
             PlaneTicket newPlaneTicket = new PlaneTicket(id, seatClass, airportName, luggageIncluded, clientName, amountOfTickets, LocalDate.of(year, month, day));
             planeTicketsList.put(id, newPlaneTicket);
         }
         catch(Exception e){
-            System.out.println(e.toString());
-            return "Time error.";
+            throw new DateException();
+           // System.out.println(e.toString());
+          //  return "Time error.";
         }
-        return response;
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PutMapping("/update/train/{id}")
-    public String updateTrainDefault(@PathVariable String id) {
-        String response = "Updated.";
-        if(!trainTicketsList.containsKey(id)) {
-            trainTicketsList.remove(id);
-            response = "Created.";
-        }
-        TrainTicket newTrainTicket = new TrainTicket(id, TrainTicket.SeatType.COMPARTMENT, "Minsk-Passenger", true, "Anton", 5, LocalDate.of(2020, 7, 9));
-        trainTicketsList.put(id, newTrainTicket);
-        return response;
-    }
 
     @PutMapping("/update/train/{id}/{seatType}/{railwayStationName}/{mealsIncluded}/{clientName}/{amountOfTickets}/{day}/{month}/{year}")
-    public String updateTrain(@PathVariable String id, @PathVariable TrainTicket.SeatType seatType, @PathVariable String railwayStationName, @PathVariable boolean mealsIncluded, @PathVariable String clientName, @PathVariable Integer amountOfTickets, @PathVariable Integer day, @PathVariable Integer month, @PathVariable Integer year) {
-        String response = "Updated.";
-        if(!trainTicketsList.containsKey(id)) {
+    public ResponseEntity<Object> updateTrain(@PathVariable String id, @PathVariable TrainTicket.SeatType seatType, @PathVariable String railwayStationName, @PathVariable boolean mealsIncluded, @PathVariable String clientName, @PathVariable Integer amountOfTickets, @PathVariable Integer day, @PathVariable Integer month, @PathVariable Integer year) {
+        String response = "Created.";
+        if(trainTicketsList.containsKey(id)) {
             trainTicketsList.remove(id);
-            response = "Created.";
+            response = "Updated.";
         }
         try {
             TrainTicket newTrainTicket = new TrainTicket(id, seatType, railwayStationName, mealsIncluded, clientName, amountOfTickets, LocalDate.of(year, month, day));
             trainTicketsList.put(id, newTrainTicket);
         }
         catch(Exception e){
-            System.out.println(e.toString());
-            return "Time error.";
+            throw new DateException();
+            //System.out.println(e.toString());
+           // return "Time error.";
         }
-        return response;
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/bus/{id}")
-    public String deleteBus(@PathVariable String id){
-        if(busTicketsList.containsKey(id)){
-            busTicketsList.remove(id);
-            return "Deleted.";
+    public ResponseEntity<Object> deleteBus(@PathVariable String id){
+        if(!busTicketsList.containsKey(id)){
+            throw new NotFoundException(id);
         }
-        return "The bus ticket was not found.";
+        busTicketsList.remove(id);
+        return new ResponseEntity<>("Deleted.", HttpStatus.OK);
     }
 
 
 
     @DeleteMapping("/delete/plane/{id}")
-    public String deletePlane(@PathVariable String id){
-        if(planeTicketsList.containsKey(id)){
-            planeTicketsList.remove(id);
-            return "Deleted.";
+    public ResponseEntity<Object> deletePlane(@PathVariable String id){
+        if(!planeTicketsList.containsKey(id)){
+            throw new NotFoundException(id);
         }
-        return "The plane ticket was not found.";
+        planeTicketsList.remove(id);
+        return new ResponseEntity<>("Deleted.", HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/train/{id}")
-    public String deleteTrain(@PathVariable String id){
-        if(trainTicketsList.containsKey(id)){
-            trainTicketsList.remove(id);
-            return "Deleted.";
+    public ResponseEntity<Object> deleteTrain(@PathVariable String id){
+        if(!trainTicketsList.containsKey(id)){
+            throw new NotFoundException(id);
         }
-        return "The train ticket was not found.";
+        trainTicketsList.remove(id);
+        return new ResponseEntity<>("Deleted.", HttpStatus.OK);
     }
 }
 
