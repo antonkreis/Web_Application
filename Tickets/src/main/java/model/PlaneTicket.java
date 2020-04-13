@@ -21,6 +21,12 @@ public class PlaneTicket extends Ticket{
         this.luggageIncluded = luggageIncluded;
         this.airportName = airportName;
     }
+    public void setInfo(String id, SeatClass seatClass, String airportName, boolean luggageIncluded, String clientName, int amountOfTickets, LocalDate date){
+        super.setInfo("P"+id, clientName, amountOfTickets, date);
+        this.seatClass = seatClass;
+        this.luggageIncluded = luggageIncluded;
+        this.airportName = airportName;
+    }
     public void buy(){
         System.out.println("Plane_Ticket::buy was called");
     }

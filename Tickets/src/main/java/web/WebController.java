@@ -204,6 +204,45 @@ public class WebController {
         ticketsCollection.removeTrainTicket(id);
         return new ResponseEntity<>("Deleted.", HttpStatus.OK);
     }
+
+    @PutMapping("/setVIPInfo/bus/{id}/{busType}/{busStopName}/{clientName}/{amountOfTickets}/{day}/{month}/{year}")
+    public synchronized ResponseEntity<Object> setVIPBusTicketInfo(@PathVariable String id, @PathVariable BusTicket.BusType busType, @PathVariable String busStopName, @PathVariable String clientName, @PathVariable Integer amountOfTickets, @PathVariable Integer day, @PathVariable Integer month, @PathVariable Integer year) {
+        try {
+            ticketsCollection.setBusVIPTicket(id, busType, busStopName, clientName, amountOfTickets, LocalDate.of(year, month, day));
+        }
+        catch(Exception e){
+            throw new DateException();
+            // System.out.println(e.toString());
+            //  return "Time error.";
+        }
+        return new ResponseEntity<>("Information added", HttpStatus.OK);
+    }
+
+    @PutMapping("/setVIPInfo/plane/{id}/{seatClass}/{airportName}/{luggageIncluded}/{clientName}/{amountOfTickets}/{day}/{month}/{year}")
+    public synchronized ResponseEntity<Object> setVIPPlaneTicketInfo(@PathVariable String id, @PathVariable PlaneTicket.SeatClass seatClass, @PathVariable String airportName, @PathVariable boolean luggageIncluded, @PathVariable String clientName, @PathVariable Integer amountOfTickets, @PathVariable Integer day, @PathVariable Integer month, @PathVariable Integer year) {
+        try {
+            ticketsCollection.setPlaneVIPTicket(id, seatClass, airportName, luggageIncluded, clientName, amountOfTickets, LocalDate.of(year, month, day));
+        }
+        catch(Exception e){
+            throw new DateException();
+            // System.out.println(e.toString());
+            //  return "Time error.";
+        }
+        return new ResponseEntity<>("Information added", HttpStatus.OK);
+    }
+
+    @PutMapping("/setVIPInfo/train/{id}/{seatType}/{railwayStationName}/{mealsIncluded}/{clientName}/{amountOfTickets}/{day}/{month}/{year}")
+    public synchronized ResponseEntity<Object> setVIPTrainTicketInfo(@PathVariable String id, @PathVariable TrainTicket.SeatType seatType, @PathVariable String railwayStationName, @PathVariable boolean mealsIncluded, @PathVariable String clientName, @PathVariable Integer amountOfTickets, @PathVariable Integer day, @PathVariable Integer month, @PathVariable Integer year) {
+        try {
+            ticketsCollection.setTrainVIPTicket(id, seatType, railwayStationName, mealsIncluded, clientName, amountOfTickets, LocalDate.of(year, month, day));
+        }
+        catch(Exception e){
+            throw new DateException();
+            // System.out.println(e.toString());
+            //  return "Time error.";
+        }
+        return new ResponseEntity<>("Information added", HttpStatus.OK);
+    }
 }
 
 

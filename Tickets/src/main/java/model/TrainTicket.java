@@ -19,6 +19,14 @@ public class TrainTicket extends Ticket {
         this.mealsIncluded=mealsIncluded;
         this.railwayStationName=railwayStationName;
     }
+
+    public void setInfo(String id, SeatType seatType, String railwayStationName, boolean mealsIncluded, String clientName, int amountOfTickets, LocalDate date) {
+        super.setInfo(id, clientName, amountOfTickets, date);
+        this.seatType=seatType;
+        this.mealsIncluded=mealsIncluded;
+        this.railwayStationName=railwayStationName;
+    }
+
     public void buy(){
         System.out.println("Train_Ticket::buy was called");
     }

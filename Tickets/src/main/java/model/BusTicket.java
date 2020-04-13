@@ -24,6 +24,11 @@ public class BusTicket extends Ticket{
     public void cancel(){
         System.out.println("Bus_Ticket::cancel was called");
     }
+    public void setInfo(String id, BusType busType, String busStopName, String clientName, int amountOfTickets, LocalDate date){
+        super.setInfo("B"+id, clientName, amountOfTickets, date);
+        this.busType=busType;
+        this.busStopName=busStopName;
+    }
     public void show(){
         System.out.println("Bus_Ticket::show was called");
         System.out.println(busType.name());

@@ -21,10 +21,17 @@ public abstract class Ticket implements TicketActions{
         this.amountOfTickets=amountOfTickets;
         this.date = date;
     }
+    public void setInfo(String id, String clientName, int amountOfTickets, LocalDate date){
+        this.id=id;
+        this.clientName=clientName;
+        this.amountOfTickets=amountOfTickets;
+        this.date = date;
+    }
     public String getClientName(){
         return clientName;
     }
     public String getId(){ return id; }
+    public void  setId(String id){ this.id = id; }
     public int getAmountOfTickets(){
         return amountOfTickets;
     }
