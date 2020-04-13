@@ -24,8 +24,7 @@ public class WebController {
 
     @GetMapping("/all")
     public synchronized ResponseEntity<Object> showAllTickets() {
-       throw new NotFoundException("cd");
-        //return new ResponseEntity<>("Bus tickets: " + ticketsCollection.getBusTicketsList() + " \nPlane tickets: " +  ticketsCollection.getPlaneTicketsList() + " \nTrain tickets: " + ticketsCollection.getTrainTicketsList(), HttpStatus.OK);
+        return new ResponseEntity<>("Bus tickets: " + ticketsCollection.getBusTicketsList() + " \nPlane tickets: " +  ticketsCollection.getPlaneTicketsList() + " \nTrain tickets: " + ticketsCollection.getTrainTicketsList(), HttpStatus.OK);
     }
 
     @GetMapping("/all/bus")
