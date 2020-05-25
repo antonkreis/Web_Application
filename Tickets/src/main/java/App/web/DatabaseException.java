@@ -3,8 +3,8 @@ package App.web;
 import java.io.IOException;
 import java.util.logging.*;
 
-public class DateException extends RuntimeException{
-    private static Logger logger = Logger.getLogger("DateException");
+public class DatabaseException extends RuntimeException{
+    private static Logger logger = Logger.getLogger("DatabaseException");
     private static FileHandler fileHandler;
 
     static {
@@ -12,11 +12,12 @@ public class DateException extends RuntimeException{
             fileHandler = new FileHandler("mylog.txt");
         } catch (IOException e) {
             logger.severe("Cannot create file handler");
+            // e.printStackTrace();
         }
     }
 
-    public DateException(){
-        logger.severe("Wrong date");
+    public DatabaseException(){
+        logger.severe("Database exception.");
         SimpleFormatter file = new SimpleFormatter();
         fileHandler.setFormatter(file);
         logger.addHandler(fileHandler);

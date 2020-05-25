@@ -1,11 +1,11 @@
 package App.model;
 
 import javax.persistence.Entity;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-public class BusTicket extends Ticket{
-
+public class BusTicket extends Ticket implements Serializable {
     public enum BusType{
         CITY,
         REGIONAL,
@@ -28,7 +28,7 @@ public class BusTicket extends Ticket{
         System.out.println("Bus_Ticket::cancel was called");
     }
     public void setInfo(String id, BusType busType, String busStopName, String clientName, int amountOfTickets, LocalDate date){
-        super.setInfo("B"+id, clientName, amountOfTickets, date);
+        super.setInfo(id, clientName, amountOfTickets, date);
         this.busType=busType;
         this.busStopName=busStopName;
     }
@@ -41,6 +41,11 @@ public class BusTicket extends Ticket{
         System.out.println(getDate().toString());
     }
     public String toString(){
-        return "Bus ticket: ID: " + getId() + "; Type: " + busType.name() + "; Bus stop name: " + busStopName + "; Client name: " + getClientName() + "; Amount: " + String.valueOf(getAmountOfTickets()) + "; Date: " + date.toString();
+        return "Bus ticket: ID: " +
+                getId() + "; Type: "
+                + busType.toString() +
+                "; Bus stop name: " + busStopName + "; Client name: " +
+                getClientName() + "; Amount: " + String.valueOf(getAmountOfTickets()) +
+                "; Date: " + date.toString();
     }
 }

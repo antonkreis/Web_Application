@@ -1,10 +1,11 @@
 package App.model;
 
 import javax.persistence.Entity;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
-public class TrainTicket extends Ticket {
+public class TrainTicket extends Ticket implements Serializable {
 
     public enum SeatType{
         SEAT,

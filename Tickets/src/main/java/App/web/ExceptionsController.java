@@ -22,4 +22,12 @@ public class ExceptionsController extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> wrongDeleteRequest(){
         return new ResponseEntity<>("The ticket with this ID already exists" , HttpStatus.CONFLICT);
     }
+    @ExceptionHandler(AsyncAlreadyExistException.class)
+    public ResponseEntity<Object> asyncWrongDeleteRequest(){
+        return new ResponseEntity<>("The ticket with this ID already exists" , HttpStatus.CONFLICT);
+    }
+    @ExceptionHandler(DatabaseException.class)
+    public ResponseEntity<Object> databaseExceptionMessage(){
+        return new ResponseEntity<>("Database exception." , HttpStatus.BAD_REQUEST);
+    }
 }

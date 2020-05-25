@@ -1,11 +1,12 @@
 package App.model;
 
 import javax.persistence.Entity;
+import java.io.Serializable;
 import java.time.LocalDate;
 //import com.sun.org.apache.bcel.internal.generic.PUSH;
 
 @Entity
-public class PlaneTicket extends Ticket{
+public class PlaneTicket extends Ticket implements Serializable {
     public enum SeatClass{
         ECONOMY,
         BUSINESS,
@@ -24,7 +25,7 @@ public class PlaneTicket extends Ticket{
         this.airportName = airportName;
     }
     public void setInfo(String id, SeatClass seatClass, String airportName, boolean luggageIncluded, String clientName, int amountOfTickets, LocalDate date){
-        super.setInfo("P"+id, clientName, amountOfTickets, date);
+        super.setInfo(id, clientName, amountOfTickets, date);
         this.seatClass = seatClass;
         this.luggageIncluded = luggageIncluded;
         this.airportName = airportName;
@@ -45,6 +46,11 @@ public class PlaneTicket extends Ticket{
         System.out.println(getDate().toString());
     }
     public String toString(){
-        return "Plane ticket: ID: " + getId() + "; Type: " + seatClass.toString() + "; Airport name: " + airportName + "; Luggage included: " + String.valueOf(luggageIncluded) + "; Client name: " + getClientName() + "; Amount of tickets: " + String.valueOf(getAmountOfTickets()) + "; Date: " + date.toString();
+        return "Plane ticket: ID: " + getId()
+                + "; Type: " + seatClass.toString() +
+                "; Airport name: " + airportName + "; Luggage included: " +
+                String.valueOf(luggageIncluded) + "; Client name: " + getClientName() +
+                "; Amount of tickets: " + String.valueOf(getAmountOfTickets()) +
+                "; Date: " + date.toString();
     }
 }
