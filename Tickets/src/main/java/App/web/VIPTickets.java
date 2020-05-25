@@ -21,33 +21,23 @@ public class VIPTickets {
     private TrainTicketRepository trainTicketRepository;
 
     private Integer idCounter;
-    private TicketsCollection ticketsCollection;
+    private SetVIPInfo setVIPInfo;
 
     public VIPTickets(){
         idCounter = 0;
-        ticketsCollection = new TicketsCollection();
+        setVIPInfo = new SetVIPInfo();
     }
 
     @Async
     //@Scheduled(fixedRate = 500)
-    @Scheduled(cron = "30 * * * * 1-7") // every 30 seconds on MON-FRI
+    @Scheduled(cron = "30 * * * * 1-7") // every 30 seconds on MON-SUN
     public synchronized void createVIPTicket(){
-        BusTicket busTicket = ticketsCollection.getBusVIPTicket();
-        PlaneTicket planeTicket = ticketsCollection.getPlaneVIPTicket();
-        TrainTicket trainTicket = ticketsCollection.getTrainVIPTicket();
+        BusTicket busTicket = setVIPInfo.getBusVIPTicket();
+        PlaneTicket planeTicket = setVIPInfo.getPlaneVIPTicket();
+        TrainTicket trainTicket = setVIPInfo.getTrainVIPTicket();
         busTicket.setId("B-VIP" + idCounter.toString());
         planeTicket.setId("P-VIP" + idCounter.toString());
         trainTicket.setId("T-VIP" + idCounter.toString());
-        //BusTicket busTicket = new BusTicket("VIP-"+idCounter.toString(),BusTicket.BusType.CITY, "Minsk", "Anton", 1000, LocalDate.of(2000,10,10));
-        //PlaneTicket planeTicket = new PlaneTicket("VIP-"+idCounter.toString(), PlaneTicket.SeatClass.ECONOMY, "MSQ", true, "Anton", 10, LocalDate.of(2000, 10, 10));
-        //TrainTicket trainTicket = new TrainTicket("VIP-"+ idCounter.toString(), TrainTicket.SeatType.SEAT, "Minsk", true, "Anton", 10, LocalDate.of(2020, 10, 10));
-//        if(ticketsCollection.containsBusTicket("B-VIP" + idCounter.toString()) || ticketsCollection.containsPlaneTicket("P-VIP" + idCounter.toString())
-//                || ticketsCollection.containsTrainTicket("T-VIP" + idCounter.toString())){
-//            throw new AlreadyExistException();
-//        }
-        ticketsCollection.addBusTicket("B-VIP" + idCounter.toString(), busTicket);
-        ticketsCollection.addPlaneTicket("P-VIP" + idCounter.toString(), planeTicket);
-        ticketsCollection.addTrainTicket("T-VIP" + idCounter.toString(), trainTicket);
         if(busTicketRepository.existsById("B-VIP" + idCounter.toString()) || planeTicketRepository.existsById("P-VIP" + idCounter.toString())
                 || trainTicketRepository.existsById("T-VIP" + idCounter.toString())){
             idCounter++;
@@ -57,8 +47,6 @@ public class VIPTickets {
             planeTicketRepository.save(planeTicket);
             trainTicketRepository.save(trainTicket);
         }
-
-
         idCounter++;
     }
 }
